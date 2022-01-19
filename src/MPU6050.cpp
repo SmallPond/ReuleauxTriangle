@@ -24,18 +24,33 @@ const uint16_t I2C_TIMEOUT = 1000; // Used to check for errors in I2C communicat
 
 
 /* 
- * mpu6050加速度转换为角度
+ * mpu6050加速度转换为角度：根据 x 和 y 轴的加速度
  * acc2rotation(ax, ay)
  * acc2rotation(az, ay)
 */
-double acc2rotation(double x, double y)
+double acc2rotation(double x, double y, double kalAngleZ)
 {
-    if(y < 0) {
-        return atan(x / y) / 1.570796 * 90 + 180;
-    } else if (x < 0) {
-        return (atan(x / y) / 1.570796 * 90 + 360);
+    double tmp_kalAngleZ = (atan(x / y) / 1.570796 * 90);
+    if (y < 0)
+    {
+        return (tmp_kalAngleZ + 180);
+    }
+    else if (x < 0)
+    {
+        // x < 0 & y > 0
+        // 将当前值与前值比较，当前差值大于100则认为异常
+        if (!isnan(kalAngleZ) && (tmp_kalAngleZ + 360 - kalAngleZ) > 100) {
+        
+            if (tmp_kalAngleZ < 0 && kalAngleZ < 0) //按键右边角
+                return tmp_kalAngleZ;
+            else  //按键边异常处理
+                return tmp_kalAngleZ;
+        } else {
+            return (tmp_kalAngleZ + 360);
+        }   
     } else {
-        return (atan(x / y) / 1.570796 * 90);
+        // x > 0 & y > 0  
+        return tmp_kalAngleZ;
     }
 }
 

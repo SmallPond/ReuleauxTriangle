@@ -41,7 +41,7 @@ uint8_t i2cData[14]; // Buffer for I2C data
 /* ----FOC Data---- */
 
 // driver instance
-double acc2rotation(double x, double y);
+
 float constrainAngle(float x);
 float controllerLQR(float p_angle, float p_vel, float m_vel);
 
@@ -219,7 +219,7 @@ void setup() {
     accX = (int16_t)((i2cData[0] << 8) | i2cData[1]);
     accY = (int16_t)((i2cData[2] << 8) | i2cData[3]);
     accZ = (int16_t)((i2cData[4] << 8) | i2cData[5]);
-    double pitch = acc2rotation(accX, accY);
+    double pitch = acc2rotation(accX, accY, kalAngleZ);
 
     kalmanZ.setAngle(pitch);
     gyroZangle = pitch;
@@ -284,7 +284,7 @@ void setup() {
     Serial.println(F("Motor ready."));
     Serial.println(F("Set the target velocity using serial terminal:"));
 
-    digitalWrite(22,LOW);  // 默认停止电机
+    //digitalWrite(22,LOW);  // 默认停止电机
 }
 char buf[255];
 long loop_count = 0;
@@ -308,7 +308,7 @@ void loop() {
     double dt = (double)(micros() - timer) / 1000000; // Calculate delta time
     timer = micros();
     
-    double pitch = acc2rotation(accX, accY);
+    double pitch = acc2rotation(accX, accY, kalAngleZ);
     double gyroZrate = gyroZ / 131.0; // Convert to deg/s 弧度每秒转换为度每秒
     if(abs(pitch-last_pitch)>100)
         kalmanZ.setAngle(pitch);
