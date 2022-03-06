@@ -1,6 +1,6 @@
 # 自平衡莱洛三角形可充电版
 
-基于 B站up 45555菌 [开源的自平衡莱洛三角形](s)所设计。此仓库维护我的一份使用 PlatformIO 环境的软件版本。我的[展示视频](https://www.bilibili.com/video/BV14a411q7EF)
+基于 B 站 UP 主 45555菌开源的自平衡莱洛三角形 所设计。此仓库维护我的一份使用 PlatformIO 环境的软件版本。我的[展示视频](https://www.bilibili.com/video/BV14a411q7EF)。
 
 
 > **在B站[“基于LQR控制器的自平衡莱洛三角形”](https://www.bilibili.com/video/BV19v411n7mN)基础上添加了充电模块**
